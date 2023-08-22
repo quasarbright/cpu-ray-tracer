@@ -11,7 +11,7 @@ export interface Obj {
     distanceEstimation(position: Vector): number
     // normal (unit) vector at that position. Assume dist is basically 0
     normAt(position: Vector): Vector
-    material: Material
+    materialAt(position: Vector): Material
 }
 
 export class Sphere implements Obj {
@@ -31,6 +31,10 @@ export class Sphere implements Obj {
 
     normAt(position: Vector): Vector {
         return position.sub(this.position).normalize()
+    }
+
+    materialAt(position: Vector): Material {
+        return this.material
     }
 }
 
@@ -53,5 +57,58 @@ export class HorizontalPlane implements Obj {
         } else {
             return new Vector(0,1,0)
         }
+    }
+
+    materialAt(position: Vector): Material {
+        return this.material
+    }
+}
+
+function mod(a: number, b: number): number {
+    return ((a % b) + b) % b
+}
+
+export class Repeating implements Obj {
+    // object should be contained in 0,0,0 to period,period,period box
+    readonly obj: Obj
+    readonly period: number
+    constructor(obj: Obj, period: number) {
+        this.obj = obj
+        this.period = period
+    }
+
+    private mod(position: Vector): Vector {
+        return new Vector(mod(position.x, this.period), mod(position.y, this.period), mod(position.z, this.period))
+    }
+
+    distanceEstimation(position: Vector): number {
+        return this.obj.distanceEstimation(this.mod(position))
+    }
+
+    normAt(position: Vector): Vector {
+        return this.obj.normAt(this.mod(position))
+    }
+
+    materialAt(position: Vector): Material {
+        return this.obj.materialAt(position)
+    }
+}
+
+export class Rainbow implements Obj {
+    readonly obj: Obj
+    constructor(obj: Obj) {
+        this.obj = obj
+    }
+
+    distanceEstimation(position: Vector): number {
+        return this.obj.distanceEstimation(position)
+    }
+
+    normAt(position: Vector): Vector {
+        return this.obj.normAt(position)
+    }
+
+    materialAt(position: Vector): Material {
+        return {color: Color.fromHSB(.5 + .5 * Math.sin(position.x + position.y + position.z), 1, 1)}
     }
 }

@@ -24,7 +24,7 @@ export class RayMarchRenderer implements Renderer {
 
     private march(scene: Scene, ray: Ray): Color {
         const maxIter = 10000
-        const maxMagnitude = 100
+        const maxMagnitude = 200
         let totalDistance = 0
         for(let i = 0; i < maxIter; i++) {
             if (ray.position.magSq() > maxMagnitude * maxMagnitude) {
@@ -32,7 +32,7 @@ export class RayMarchRenderer implements Renderer {
             }
             const {obj, distance} = scene.distanceEstimation(ray.position)
             if (distance < RayMarchRenderer.HIT_DISTANCE) {
-                return obj.material.color
+                return obj.materialAt(ray.position).color
             } else {
                 ray = ray.march(distance)
                 totalDistance += distance
