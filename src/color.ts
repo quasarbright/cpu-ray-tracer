@@ -15,5 +15,23 @@ export class Color {
         const k = (n: number) => (n + h / 60) % 6;
         const f = (n: number) => b * (1 - s * Math.max(0, Math.min(k(n), 4 - k(n), 1)));
         return new Color(f(5), f(3), f(1));
-   }
+    }
+}
+
+export function averageColor(colors: Color[]) {
+    let r = 0
+    let g = 0
+    let b = 0
+    for(const color of colors) {
+        r += color.r * color.r
+        g += color.g * color.g
+        b += color.b * color.b
+    }
+    r /= colors.length
+    g /= colors.length
+    b /= colors.length
+    r = Math.sqrt(r)
+    g = Math.sqrt(g)
+    b = Math.sqrt(b)
+    return new Color(r,g,b)
 }
