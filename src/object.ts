@@ -134,6 +134,7 @@ export class Rainbow implements Obj {
     }
 
     materialAt(position: Vector): Material {
-        return {color: Color.fromHSB(.5 + .5 * Math.sin(position.x + position.y + position.z), 1, 1)}
+        const hu = 1 / 3 + (Math.sin(position.x) + Math.sin(position.y) + Math.sin(position.z)) / 3
+        return {color: Color.fromHSB(hu, 1, 1)}
     }
 }

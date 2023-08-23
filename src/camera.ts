@@ -17,8 +17,8 @@ export class Camera {
     constructor(position: Vector, direction: Vector) {
         this.position = position
         this.direction = direction
-        this.horizontalFov = Math.PI / 2
-        this.verticalFov = Math.PI / 2
+        this.horizontalFov = 70 * 2 * Math.PI / 360
+        this.verticalFov = 70 * 2 * Math.PI / 360
     }
 
     // make 2d array of rays corresponding to pixels

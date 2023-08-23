@@ -7,7 +7,7 @@ import { saveImage } from "./to-image"
 import { Vector } from "./vector"
 
 async function main() {
-    const camera = new Camera(new Vector(0,0,0), new Vector(1,0,0))
+    const camera = new Camera(new Vector(0,0,0), new Vector(1,0,0).normalize())
     const objects = [
         new Sphere(new Vector(10,0,0), 1, {color: new Color(1,0,0)}),
         new Rainbow(new Sphere(new Vector(12,0,-1), 1.9, {color: new Color(0,1,0)})),
@@ -15,9 +15,12 @@ async function main() {
         new Rainbow(new Sphere(new Vector(12,4,-1), 1.9, {color: new Color(0,1,0)})),
         new Rainbow(new Sphere(new Vector(12,8,-1), 1.9, {color: new Color(0,1,0)})),
         new Rainbow(new Sphere(new Vector(12,12,-1), 1.9, {color: new Color(0,1,0)})),
+        new Rainbow(new Sphere(new Vector(12,0,-5), 1.9, {color: new Color(0,1,0)})),
+        new Rainbow(new Sphere(new Vector(12,0,-9), 1.9, {color: new Color(0,1,0)})),
+        new Rainbow(new Sphere(new Vector(12,0,-13), 1.9, {color: new Color(0,1,0)})),
         new Sphere(new Vector(9,0,1), 1, {color: new Color(0,0,1)}),
         new HorizontalPlane(-2, {color: new Color(1,1,1), spectralProbability: 1}),
-        // new Rainbow(new Repeating(new Sphere(new Vector(5,5,5), 1, {color: new Color(1,0,0)}), 10)),
+        new Rainbow(new Repeating(new Sphere(new Vector(5,5,5), 1, {color: new Color(1,0,0)}), 10)),
     ]
     const scene = new Scene(objects)
     const renderer = new RayMarchRenderer()
