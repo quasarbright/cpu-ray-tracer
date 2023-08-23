@@ -3,7 +3,10 @@ import { Vector } from "./vector";
 
 export interface Material {
     color: Color
-    spectralProbability?: number
+    specularProbability?: number
+    emissionColor?: Color
+    // 0 to 1
+    emissionStrength?: number
 }
 
 export interface Obj {

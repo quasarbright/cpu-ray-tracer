@@ -9,7 +9,7 @@ describe('ray march renderer', () => {
     it('handles reflected rays', () => {
         const renderer = new RayMarchRenderer()
         const objects = [
-            new HorizontalPlane(0,{color: new Color(1,1,1), spectralProbability: 1}),
+            new HorizontalPlane(0,{color: new Color(1,1,1), specularProbability: 1}),
             new Sphere(new Vector(2,1,0), .1, {color: new Color(1,0,0)}),
         ]
         const scene = new Scene(objects)

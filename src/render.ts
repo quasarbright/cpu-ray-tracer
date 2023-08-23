@@ -11,7 +11,7 @@ export interface Renderer {
 
 export class RayMarchRenderer implements Renderer {
     static HIT_DISTANCE = 0.0001
-    static MAX_BOUNCES = 1
+    static MAX_BOUNCES = 3
     static MAX_MARCH_ITER = 10000
     static MAX_RAY_MAGNITUDE = 200
     render(scene: Scene, camera: Camera, pixelWidth: number, pixelHeight: number): Color[][] {
@@ -31,32 +31,34 @@ export class RayMarchRenderer implements Renderer {
      * determine what color the ray should be.
      */
     private trace(scene: Scene, ray: Ray): Color {
-        // TODO convert to loop
-        // TOOD max bounce count
-        const hitInfo = this.march(scene, ray)
-        if (hitInfo) {
-            const {obj, ray: newRay} = hitInfo
-            const material = obj.materialAt(newRay.position)
-            const color = material.color
-            if (Math.random() < (material.spectralProbability || 0)) {
-                // spectral reflection
-                const normal = hitInfo.obj.normAt(newRay.position)
-                const reflectedRay = newRay.reflect(normal)
-                // if we don't do this, if the reflected ray is on the surface, it'll never march away
-                // because it will march 0 distance each step
-                const nextRay = reflectedRay.march(RayMarchRenderer.HIT_DISTANCE)
-                const reflectedColor = this.trace(scene, nextRay)
+        let rayColor = Color.WHITE
+        for(let i = 0; i < RayMarchRenderer.MAX_BOUNCES + 1; i++) {
+            const hitInfo = this.march(scene, ray)
+            if (hitInfo) {
+                const { obj, ray: newRay } = hitInfo
+                const material = obj.materialAt(newRay.position)
                 // Color#reflect is monoidal and commutative so this is ok. this wouldn't be ok if we were averaging
-                return color.reflect(reflectedColor)
+                rayColor = rayColor.reflect(material.color)
+                if (Math.random() < (material.specularProbability || 0)) {
+                    // specular reflection
+                    const normal = hitInfo.obj.normAt(newRay.position)
+                    const reflectedRay = newRay.reflect(normal)
+                    // if we don't do this, if the reflected ray is on the surface, it'll never march away
+                    // because it will march 0 distance each step
+                    ray = reflectedRay.march(RayMarchRenderer.HIT_DISTANCE)
+                    continue
+                } else {
+                    // diffuse reflection
+                    // TODO reflect randomly and recur
+                    break
+                }
             } else {
-                // diffuse reflection
-                // TODO reflect randomly and recur
-                return color
+                // didn't hit anything
+                rayColor = Color.BLACK
+                break
             }
-        } else {
-            // didn't hit anything
-            return new Color(0,0,0)
         }
+        return rayColor
     }
     
     /**

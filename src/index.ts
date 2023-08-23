@@ -19,7 +19,7 @@ async function main() {
         new Rainbow(new Sphere(new Vector(12,0,-9), 1.9, {color: new Color(0,1,0)})),
         new Rainbow(new Sphere(new Vector(12,0,-13), 1.9, {color: new Color(0,1,0)})),
         new Sphere(new Vector(9,0,1), 1, {color: new Color(0,0,1)}),
-        new HorizontalPlane(-2, {color: new Color(1,1,1), spectralProbability: 1}),
+        new HorizontalPlane(-2, {color: new Color(1,1,1), specularProbability: 1}),
         new Rainbow(new Repeating(new Sphere(new Vector(5,5,5), 1, {color: new Color(1,0,0)}), 10)),
     ]
     const scene = new Scene(objects)

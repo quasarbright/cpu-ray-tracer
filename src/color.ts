@@ -3,6 +3,8 @@ export class Color {
     readonly r: number
     readonly g: number
     readonly b: number
+    static BLACK = new Color(0,0,0)
+    static WHITE = new Color(1,1,1)
     constructor(r: number, g: number, b: number) {
         this.r = r
         this.g = g
