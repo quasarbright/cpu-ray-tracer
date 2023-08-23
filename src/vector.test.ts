@@ -91,4 +91,9 @@ describe('vector rotation', () => {
     test('cross product', () => {
         expect(xhat.cross(zhat)).toEqual(yhat)
     })
+
+    test('reflection', () => {
+        expect(new Vector(1,1,0).reflect(new Vector(0,-1,0))).toEqual(new Vector(1,-1,0))
+        expect(new Vector(1,2,0).reflect(new Vector(0,-1,0))).toEqual(new Vector(1,-2,0))
+    })
 })

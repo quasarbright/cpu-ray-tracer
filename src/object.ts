@@ -70,6 +70,7 @@ function mod(a: number, b: number): number {
 }
 
 export class Repeating implements Obj {
+    // TODO replace with transformed
     // object should be contained in 0,0,0 to period,period,period box
     readonly obj: Obj
     readonly period: number
@@ -91,7 +92,30 @@ export class Repeating implements Obj {
     }
 
     materialAt(position: Vector): Material {
+        // this should be modded too, but rainbow repeating looks better like this
         return this.obj.materialAt(position)
+    }
+}
+
+export class Transformed implements Obj {
+    readonly obj: Obj
+    readonly transformation: (position: Vector) => Vector
+    constructor(obj: Obj, transformation: (position: Vector) => Vector) {
+        this.obj = obj
+        this.transformation = transformation
+    }
+
+
+    distanceEstimation(position: Vector): number {
+        return this.obj.distanceEstimation(this.transformation(position))
+    }
+
+    normAt(position: Vector): Vector {
+        return this.obj.normAt(this.transformation(position))
+    }
+
+    materialAt(position: Vector): Material {
+        return this.obj.materialAt(this.transformation(position))
     }
 }
 

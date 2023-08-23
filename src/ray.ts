@@ -13,4 +13,9 @@ export class Ray {
         const position = this.position.add(this.direction.scale(distance))
         return new Ray(position, this.direction)
     }
+
+    reflect(normal: Vector) {
+        const direction = this.direction.reflect(normal)
+        return new Ray(this.position, direction)
+    }
 }

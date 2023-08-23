@@ -13,7 +13,8 @@ export class Scene {
         let minObject = undefined
         for(const object of this.objects) {
             const distance = object.distanceEstimation(position)
-            if (distance < minDistance) {
+            // use <= in case there are objects who return infinite distance estimations
+            if (distance <= minDistance) {
                 minDistance = distance
                 minObject = object
             }

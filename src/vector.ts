@@ -79,4 +79,11 @@ export class Vector {
         const z = this.y * other.x - this.x * other.y
         return new Vector(x,y,z)
     }
+
+    /**
+     * treating this vector as an incident direction, reflect along the surface normal
+     */
+    reflect(normal: Vector) {
+        return this.sub(normal.scale(2 * this.dot(normal)))
+    }
 }

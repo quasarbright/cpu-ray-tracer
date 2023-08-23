@@ -16,6 +16,12 @@ export class Color {
         const f = (n: number) => b * (1 - s * Math.max(0, Math.min(k(n), 4 - k(n), 1)));
         return new Color(f(5), f(3), f(1));
     }
+
+    // simulate a material with this color absorbing and re-emitting light with the given color,
+    // like white contains all colors, black contains none, and other colors are mixtures of red, green, and blue light
+    reflect(lightColor: Color): Color {
+        return new Color(this.r * lightColor.r, this.g * lightColor.g, this.b * lightColor.b)
+    }
 }
 
 export function averageColor(colors: Color[]) {
