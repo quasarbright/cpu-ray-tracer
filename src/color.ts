@@ -24,6 +24,14 @@ export class Color {
     reflect(lightColor: Color): Color {
         return new Color(this.r * lightColor.r, this.g * lightColor.g, this.b * lightColor.b)
     }
+
+    add(otherColor: Color): Color {
+        return new Color(this.r + otherColor.r, this.g + otherColor.g, this.b + otherColor.b)
+    }
+
+    scale(factor: number) {
+        return new Color(this.r*factor,this.g*factor,this.b*factor)
+    }
 }
 
 export function averageColor(colors: Color[]) {
@@ -31,6 +39,7 @@ export function averageColor(colors: Color[]) {
     let g = 0
     let b = 0
     for(const color of colors) {
+        // use square bc that's how it's supposed to work
         r += color.r * color.r
         g += color.g * color.g
         b += color.b * color.b

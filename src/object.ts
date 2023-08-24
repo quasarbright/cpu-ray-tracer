@@ -141,3 +141,71 @@ export class Rainbow implements Obj {
         return {color: Color.fromHSB(hu, 1, 1)}
     }
 }
+
+export class Intersection implements Obj {
+    readonly objects: Obj[]
+    constructor(objects: Obj[]) {
+        this.objects = objects
+    }
+
+    furthestObject(position: Vector) {
+        let furthestObj = undefined
+        let furthestDistance = -Infinity
+        for(const obj of this.objects) {
+            const distance = obj.distanceEstimation(position)
+            if (distance >= furthestDistance) {
+                furthestDistance = distance
+                furthestObj = obj
+            }
+        }
+        return {obj: furthestObj, distance: furthestDistance}
+    }
+
+    distanceEstimation(position: Vector): number {
+        return this.furthestObject(position).distance
+    }
+
+    normAt(position: Vector): Vector {
+        return this.furthestObject(position).obj!.normAt(position)
+    }
+
+    materialAt(position: Vector): Material {
+        return this.furthestObject(position).obj!.materialAt(position)
+    }
+}
+
+export class Union implements Obj {
+    readonly objects: Obj[]
+    constructor(objects: Obj[]) {
+        this.objects = objects
+    }
+
+    closestObject(position: Vector) {
+        let closest = undefined
+        let closestDistance = Infinity
+        for(const obj of this.objects) {
+            const distance = obj.distanceEstimation(position)
+            if (distance <= closestDistance) {
+                closestDistance = distance
+                closest = obj
+            }
+        }
+        return {obj: closest, distance: closestDistance}
+    }
+
+    distanceEstimation(position: Vector): number {
+        return this.closestObject(position).distance
+    }
+
+    normAt(position: Vector): Vector {
+        return this.closestObject(position).obj!.normAt(position)
+    }
+
+    materialAt(position: Vector): Material {
+        return this.closestObject(position).obj!.materialAt(position)
+    }
+}
+
+export function cube(position: Vector, size: number) {
+    // return new Intersection
+}

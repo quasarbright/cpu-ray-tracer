@@ -86,4 +86,16 @@ export class Vector {
     reflect(normal: Vector) {
         return this.sub(normal.scale(2 * this.dot(normal)))
     }
+
+    static randomDirection(): Vector {
+        const x = Math.random() * 2 - 1
+        const y = Math.random() * 2 - 1
+        const z = Math.random() * 2 - 1
+        const direction = new Vector(x,y,z)
+        if(direction.magSq() <= 1) {
+            return direction.normalize()
+        } else {
+            return Vector.randomDirection()
+        }
+    }
 }

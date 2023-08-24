@@ -8,8 +8,16 @@ export const reflection = (normal: Vector) => (position: Vector) => position.ref
 // linear transformation, represented by where it sends each unit vector
 export const linear = (xhat: Vector, yhat: Vector, zhat: Vector) => (position: Vector) => xhat.scale(position.x).add(yhat.scale(position.y)).add(zhat.scale(position.z))
 
-function mod(a: number, b: number): number {
+export function mod(a: number, b: number): number {
     return ((a % b) + b) % b
 }
 // transform the into pacman space
 export const repeating = (period: number) => (position: Vector) => new Vector(mod(position.x, period), mod(position.y, period), mod(position.z, period))
+
+// first one gets applied first
+export const composition = (...transformations: ((position: Vector) => Vector)[]) => (position: Vector) => {
+    for(const transformation of transformations) {
+        position = transformation(position)
+    }
+    return position
+}
